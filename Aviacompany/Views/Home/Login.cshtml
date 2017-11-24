@@ -1,0 +1,25 @@
+﻿@model Aviacompany.Library.Models.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Вход на сайт</h2>
+<div class="row">
+    
+    @Html.ValidationSummary()
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken();
+        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+        <div class="input-field col s12">
+            <label for="login">Имя</label>
+            @Html.TextBoxFor(x => x.Name, new { @class = "validate", @placeholder = "Логин", @id = "login" })
+        </div>
+        <div class="input-field col s12">
+            <label for="password">Пароль</label>
+            @Html.PasswordFor(x => x.Password, new { @class = "validate", @placeholder = "Пароль", @id = "password" })
+        </div>
+        <button class="waves-effect waves-light btn" type="submit">Войти</button>
+    }
+</div>

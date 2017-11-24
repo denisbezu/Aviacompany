@@ -1,0 +1,16 @@
+﻿@using Aviacompany.Library.Entities
+@model IEnumerable<Flight>
+
+@{
+    ViewBag.Title = "Рейсы";
+}
+
+@foreach (var p in @Model)
+{
+    <div>
+        <h3>@p.FlightNumber</h3>
+        <p>@p.FlightDateTime</p>
+        <h4>@p.FlightFromCity.CityName</h4>
+        <h4>@p.FlightToCity.CityName</h4>
+    </div>
+}

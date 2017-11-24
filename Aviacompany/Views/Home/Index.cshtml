@@ -1,0 +1,43 @@
+﻿@using Aviacompany.Library.Entities
+@model IEnumerable<Aviacompany.Library.Entities.Flight>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Главная";
+}
+<style>
+button {
+    margin-top: 15px;
+    margin-right: 20px;
+}
+</style>
+<div class="row">
+    <h4 class="grey-text text-lighten-4 col s6">Рейсы</h4>
+    <div class="right-align">
+        <button class="waves-effect waves-light btn">Добавить</button>
+    </div>
+</div>
+<table class="black-text text-lighten-4 z-depth-3 red accent-1 highlight">
+    <thead>
+        <tr>
+            <th>Номер рейса</th>
+            <th>Откуда</th>
+            <th>Куда</th>
+            <th>Дата вылета</th>
+            <th>Статус рейса</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (Flight item in Model)
+        {
+
+            <tr onclick="window.location.href='@Url.Action("FlyghtInfo", new { item.FlightId })'; return false">
+                <td>@item.FlightNumber</td>
+                <td>@item.FlightFromCity.CityName</td>
+                <td>@item.FlightToCity.CityName</td>
+                <td>@item.FlightDateTime</td>
+                <td>@item.FlightStatus.StatusName</td>
+            </tr>
+        }
+    </tbody>
+</table>

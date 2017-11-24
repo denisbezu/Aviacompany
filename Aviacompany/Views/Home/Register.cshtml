@@ -1,0 +1,35 @@
+﻿@model Aviacompany.Library.Models.CreateModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Регистрация</h2>
+<div class="row">
+    @Html.ValidationSummary()
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken();
+
+        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+        <div class="row">
+            <div class="input-field col s6">
+                <label for="login">Имя</label>
+                @Html.TextBoxFor(x => x.Name, new { @placeholder = "Логин", @id = "login" })
+            </div>
+        </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <label for="email">Email</label>
+                    @Html.TextBoxFor(x => x.Email, new { @placeholder = "Email", @id = "email" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <label for="password">Пароль</label>
+                    @Html.PasswordFor(x => x.Password, new { @placeholder = "Пароль", @id = "password" })
+                </div>
+            </div>
+
+            <button class="waves-effect waves-light btn" type="submit">Регистрация</button>
+    }
+</div>
