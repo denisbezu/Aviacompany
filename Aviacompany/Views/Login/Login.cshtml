@@ -1,11 +1,17 @@
 ﻿@model Aviacompany.Library.Models.LoginViewModel
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Вход на сайт";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .register-btn {
+        margin-left: 10px;
+    }
+     
+</style>
+<h4>Введите свои учетные данные</h4>
+<div class="row ">
 
-<h2>Вход на сайт</h2>
-<div class="row">
-    
     @Html.ValidationSummary()
 
     @using (Html.BeginForm())
@@ -20,6 +26,8 @@
             <label for="password">Пароль</label>
             @Html.PasswordFor(x => x.Password, new { @class = "validate", @placeholder = "Пароль", @id = "password" })
         </div>
-        <button class="waves-effect waves-light btn" type="submit">Войти</button>
+        <p class="grey-text text-lighten-4 register-btn">У вас нет аккаунта?<a href="@Url.Action("Register", "Register")"> Регистрация</a></p>
+        <button class="waves-effect waves-light btn register-btn" type="submit">Войти</button>
+        
     }
 </div>

@@ -6,131 +6,88 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Aviacompany.Library.Abstract;
+using Aviacompany.Library.DataAccess;
+using Aviacompany.Library.Entities;
 using Aviacompany.Library.Infrastrucutre;
 using Aviacompany.Library.Models;
+using Castle.Core.Internal;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
 namespace Aviacompany.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private IFlightRepository _flightRepository;
+        private ICityRepository _cityRepository;
+        private ITeamEmployeeRepository _teamEmployeeRepository;
+        private ITeamRepository _teamRepository;
+        private IBrigadeRepository _brigadeRepository;
 
-        public HomeController(IFlightRepository flightRepository)
+        
+        public HomeController(IFlightRepository flightRepository, ICityRepository cityRepository, 
+            ITeamEmployeeRepository teamEmployeeRepository, ITeamRepository teamRepository, 
+            IBrigadeRepository brigadeRepository)
         {
             _flightRepository = flightRepository;
+            _cityRepository = cityRepository;
+            _teamEmployeeRepository = teamEmployeeRepository;
+            _teamRepository = teamRepository;
+            _brigadeRepository = brigadeRepository;
         }
+
         public ActionResult Index()
         {
-            return View(_flightRepository.Flights);
+            FlightsViewModel flightsViewModel = new FlightsViewModel();
+            flightsViewModel.Flights = _flightRepository.Flights;
+            flightsViewModel.Cities = _cityRepository.Cities;
+            flightsViewModel.Date = null;
+            return View(flightsViewModel);
         }
+
+        [HttpPost]
+        public ActionResult Search(FlightsViewModel flightsViewModel)
+        {
+            flightsViewModel.Cities = _cityRepository.Cities;
+            flightsViewModel.Flights = _flightRepository.Flights;           
+            if (!flightsViewModel.FlightName.IsNullOrEmpty())
+                flightsViewModel.Flights =
+                    flightsViewModel.Flights.Where(f => f.FlightNumber.ToLower().Contains(flightsViewModel.FlightName.ToLower()));
+            if (flightsViewModel.CityTo != null)
+                flightsViewModel.Flights =
+                    flightsViewModel.Flights.Where(f => f.FlightToCity.CityId.Equals(flightsViewModel.CityTo));
+            if (flightsViewModel.CityFrom != null)
+                flightsViewModel.Flights =
+                    flightsViewModel.Flights.Where(f => f.FlightFromCity.CityId.Equals(flightsViewModel.CityFrom));
+            if (flightsViewModel.Date != null)
+            {
+                flightsViewModel.Flights = flightsViewModel.Flights.Where(f =>
+                    f.FlightDate.Date.Equals(flightsViewModel.Date.Value.Date));
+            }
+            return View("Index", flightsViewModel);
+        }
+
         public ActionResult About()
         {
             return View();
         }
+
         public ActionResult Contacts()
         {
             return View();
         }
 
-        [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public async Task<ActionResult> FlightInfo(int flightId = 0)
         {
             
-            ViewBag.returnUrl = "Index";
-            return View();
+            FlightInfoViewModel flightInfoViewModel = new FlightInfoViewModel();
+            flightInfoViewModel.Flight = _flightRepository.Flights.FirstOrDefault(f => f.FlightId == flightId);
+            flightInfoViewModel.TeamEmployees = _teamEmployeeRepository.TeamEmployees;
+            flightInfoViewModel.Teams = _teamRepository.Teams;
+            flightInfoViewModel.Brigades = _brigadeRepository.Brigades;
+            return View(flightInfoViewModel);
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel details, string returnUrl = "Index")
-        {
-            AppUser user = await UserManager.FindAsync(details.Name, details.Password);
-
-            if (user == null)
-            {
-                ModelState.AddModelError("", "Некорректное имя или пароль.");
-            }
-            else
-            {
-                ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user,
-                    DefaultAuthenticationTypes.ApplicationCookie);
-
-                AuthManager.SignOut();
-                AuthManager.SignIn(new AuthenticationProperties
-                {
-                    IsPersistent = false
-                }, ident);
-                return Redirect(returnUrl);
-            }
-
-            return View(details);
-        }
-
-        private IAuthenticationManager AuthManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
-
-        [Authorize]
-        public ActionResult Logout()
-        {
-            AuthManager.SignOut();
-            return RedirectToAction("Index", "Home");
-        }
-
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Register(CreateModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                AppUser user = new AppUser { UserName = model.Name, Email = model.Email };
-                IdentityResult result =
-                    await UserManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    AddErrorsFromResult(result);
-                }
-            }
-            return View(model);
-        }
-
-        private void AddErrorsFromResult(IdentityResult result)
-        {
-            foreach (string error in result.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
-        }
-
-
-        public ActionResult FlyghtInfo(int flightId = 0)
-        {
-            return View(_flightRepository.Flights.FirstOrDefault(f => f.FlightId == flightId));
-        }
-
-        private AppUserManager UserManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
-            }
-        }
     }
 }

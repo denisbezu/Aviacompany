@@ -22,18 +22,30 @@
                 <a href="@Url.Action("Index", "Home")" class="brand-logo"><i class="fa fa-plane fa-2x"></i></a>
                 <a href="#" class="button-collapse" data-activates="mobile"> <i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down text-up">
+                    @if (Request.IsAuthenticated && User.IsInRole("Administrators"))
+                    {
+                        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Администратор<i class="material-icons right">arrow_drop_down</i></a></li>
+                        <!-- Dropdown Structure -->
+                        <ul id="dropdown1" class="dropdown-content">
+                            <li><a href="@Url.Action("Index", "RoleAdmin")">Управление ролями</a></li>
+                            <li><a href="@Url.Action("Index", "City")">Города</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#!">three</a></li>
+                        </ul>
+                        
+                    }
                     <li><a href="#">Информация</a></li>
                     <li><a href="@Url.Action("Contacts", "Home")">Контакты</a></li>
-                    <li><a href="@Url.Action("About","Home")">О нас</a></li>
+                    <li><a href="@Url.Action("About", "Home")">О нас</a></li>
                     @if (!Request.IsAuthenticated)
                     {
-                        <li><a href="@Url.Action("Register","Home")">Регистрация</a></li>
-                        <li><a href="@Url.Action("Login","Home")">Вход</a></li>
+                        <li><a href="@Url.Action("Register", "Register")">Регистрация</a></li>
+                        <li><a href="@Url.Action("Login", "Login")">Вход</a></li>
                     }
                     else
                     {
-                        <li><a href="#">Мой аккаунт</a></li>
-                        <li><a href="@Url.Action("Logout","Home")">Выход</a></li>
+                        <li><a href="@Url.Action("EditUser", "UserSettings")">Мой аккаунт</a></li>
+                        <li><a href="@Url.Action("Logout", "Login")">Выход</a></li>
                     }
                 </ul>
                 <ul class="side-nav" id="mobile">
@@ -41,7 +53,7 @@
                     <li><a href="@Url.Action("Contacts", "Home")">Контакты</a></li>
                     <li><a href="@Url.Action("About", "Home")">О нас</a></li>
                     <li><a href="@Url.Action("Register", "Home")">Регистрация</a></li>
-                    <li><a href="@Url.Action("Login", "Home")">Вход</a></li>
+                    <li><a href="@Url.Action("Login", "Login")">Вход</a></li>
                 </ul>
             </div>
         </div>

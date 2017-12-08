@@ -13,11 +13,12 @@ namespace Aviacompany
         {
             app.CreatePerOwinContext<AviaCompanyContext>(AviaCompanyContext.Create);
             app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
+            app.CreatePerOwinContext<AppRoleManager>(AppRoleManager.Create);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login"),
+                LoginPath = new PathString("/Login/Login"),
             });
         }
     }

@@ -1,0 +1,77 @@
+﻿@using Aviacompany.Library.Models
+@model Aviacompany.Library.Models.RoleEditModel
+@{
+    ViewBag.Title = "Изменить роль";
+}
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<h2>Изменить роль</h2>
+@Html.ValidationSummary()
+@using (Html.BeginForm())
+{
+    <input type="hidden" name="roleName" value="@Model.Role.Name" />
+    <div class="panel panel-primary">
+        <div class="panel-heading">Добавить в роль <b>@Model.Role.Name</b></div>
+        <table class="table table-striped">
+            @if (Model.NonMembers.Count() == 0)
+            {
+                <tr>
+                    <td colspan="2">Все пользователи в роли</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>User ID</td>
+                    <td>Добавить в роль</td>
+                </tr>
+                foreach (AppUser user in Model.NonMembers)
+                {
+                    <tr>
+                        <td>@user.UserName</td>
+                        <td>
+                            <input type="checkbox" name="IdsToAdd" value="@user.Id">
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Удалить из роли <b>@Model.Role.Name</b></div>
+        <table class="table table-striped">
+            @if (Model.Members.Count() == 0)
+            {
+                <tr>
+                    <td colspan="2">Нет пользователей в роли</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>User ID</td>
+                    <td>Удалить из роли</td>
+                </tr>
+                foreach (AppUser user in Model.Members)
+                {
+                    <tr>
+                        <td>@user.UserName</td>
+                        <td>
+                            <input type="checkbox" name="IdsToDelete" value="@user.Id">
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-default" })
+    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">На главную</a>
+}

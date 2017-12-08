@@ -1,0 +1,27 @@
+﻿@model IEnumerable<string>
+@{
+    ViewBag.Title = "Ошибка";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<div class="alert alert-danger">
+    @switch (Model.Count())
+    {
+        case 0:
+            @: Что-то пошло не так. Пожалуйста, попробуйте еще раз!
+            break;
+        case 1:
+            @Model.First();
+            break;
+        default:
+            @: Следующие ошибки были обнаружены:
+            <ul>
+                @foreach (string error in Model)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+            break;
+    }
+</div>
+@Html.ActionLink("OK", "Index", null, new { @class = "btn btn-default" })

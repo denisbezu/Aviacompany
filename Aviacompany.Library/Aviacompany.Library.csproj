@@ -95,17 +95,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IBrigadeRepository.cs" />
+    <Compile Include="Abstract\ICityRepository.cs" />
     <Compile Include="Abstract\IFlightRepository.cs" />
+    <Compile Include="Abstract\IFlightStatusRepository.cs" />
+    <Compile Include="Abstract\ITeamEmployeeRepository.cs" />
+    <Compile Include="Abstract\ITeamRepository.cs" />
+    <Compile Include="Concrete\BrigadeRepository.cs" />
+    <Compile Include="Concrete\CityRepository.cs" />
     <Compile Include="Concrete\FlightRepository.cs" />
+    <Compile Include="Concrete\FlightStatusRepository.cs" />
+    <Compile Include="Concrete\TeamEmployeeRepository.cs" />
+    <Compile Include="Concrete\TeamRepository.cs" />
     <Compile Include="DataAccess\AviaCompanyContext.cs" />
     <Compile Include="DatabaseCreator.cs" />
+    <Compile Include="Entities\Brigade.cs" />
     <Compile Include="Entities\City.cs" />
+    <Compile Include="Entities\Employee.cs" />
     <Compile Include="Entities\Flight.cs" />
     <Compile Include="Entities\FlightStatus.cs" />
+    <Compile Include="Entities\Request.cs" />
+    <Compile Include="Entities\Team.cs" />
+    <Compile Include="Entities\TeamEmployee.cs" />
+    <Compile Include="Entities\TeamType.cs" />
+    <Compile Include="Infrastrucutre\AppRoleManager.cs" />
     <Compile Include="Infrastrucutre\AppUserManager.cs" />
+    <Compile Include="Models\AppRole.cs" />
     <Compile Include="Models\AppUserModels.cs" />
-    <Compile Include="Models\CreateModel.cs" />
+    <Compile Include="Models\CreateViewModel.cs" />
+    <Compile Include="Models\FlightInfoViewModel.cs" />
+    <Compile Include="Models\FlightsViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\RoleEditModel.cs" />
+    <Compile Include="Models\RoleModificationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

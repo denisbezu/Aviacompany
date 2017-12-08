@@ -7,5 +7,8 @@ namespace Aviacompany.Library.Abstract
     public interface IFlightRepository
     {
         IEnumerable<Flight> Flights { get; }
+
+        void SaveFlight(Flight flight);
+        Flight DeleteFlight(int flightId);
     }
 }

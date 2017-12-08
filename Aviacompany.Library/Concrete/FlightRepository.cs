@@ -15,11 +15,41 @@ namespace Aviacompany.Library.Concrete
             get
             {
                 context.Cities.Load();
+                context.Flights.Load();
                 context.FlightStatuses.Load();
                 return context.Flights;
             }
         }
 
+        public void SaveFlight(Flight flight)
+        {
+            if (flight.FlightId == 0)
+                context.Flights.Add(flight);
+            else
+            {
+                Flight dbEntry = context.Flights.Find(flight.FlightId);
+                if (dbEntry != null)
+                {
+                    dbEntry.FlightFrom = flight.FlightFrom;
+                    dbEntry.FlightTo = flight.FlightTo;
+                    dbEntry.FlightStatusId = flight.FlightStatusId;
+                    dbEntry.FlightNumber = flight.FlightNumber;
+                    dbEntry.FlightDate = flight.FlightDate;
+                    dbEntry.FlightTime = flight.FlightTime;
+                }
+            }
+            context.SaveChanges();
+        }
 
+        public Flight DeleteFlight(int flightId)
+        {
+            Flight dbEntry = context.Flights.Find(flightId);
+            if (dbEntry != null)
+            {
+                context.Flights.Remove(dbEntry);
+                context.SaveChanges();
+            }
+            return dbEntry;
+        }
     }
 }

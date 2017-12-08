@@ -1,0 +1,85 @@
+﻿@using Aviacompany.Library.Entities
+@using Aviacompany.Library.Models
+@model Aviacompany.Library.Models.FlightInfoViewModel
+@{
+    ViewBag.Title = "Информация о рейсе №" + Model.Flight.FlightNumber;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string delimeter = "; ";
+}
+
+<div class="row">
+    <div class="col m6">
+        <table class="black-text text-lighten-4 z-depth-3 red accent-1 bordered">
+            <tr>
+                <td>Номер рейса</td>
+                <td>@Model.Flight.FlightNumber</td>
+            </tr>
+            <tr>
+                <td>Куда</td>
+                <td>@Model.Flight.FlightToCity.CityName</td>
+            </tr>
+            <tr>
+                <td>Откуда</td>
+                <td>@Model.Flight.FlightFromCity.CityName</td>
+            </tr>
+            <tr>
+                <td>Дата вылета</td>
+                <td>@Model.Flight.FlightDate.Day.ToString("0#").@Model.Flight.FlightDate.Month.ToString("0#").@Model.Flight.FlightDate.Year </td>
+            </tr>
+            <tr>
+                <td>Время вылета</td>
+                <td>@Model.Flight.FlightTime.Hours.ToString("0#"):@Model.Flight.FlightTime.Minutes.ToString("0#")</td>
+            </tr>
+            <tr>
+                <td>Статус</td>
+                <td>@Model.Flight.FlightStatus.StatusName</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col m6">
+        <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+                <span class="card-title">Летная бригада</span>
+                <div class="progress">
+                    <div class="determinate" style="width: 100%; background: wheat"></div>
+                </div>
+                @if (Model.Flight.BrigadeId == null)
+                {
+                    <p>Летная бригада не назначена</p>
+                }
+                else
+                {
+
+                    <p>
+                        Пилоты: @foreach (TeamEmployee employee in Model.TeamEmployees)
+                        {
+                            foreach (Brigade brigade in Model.Brigades)
+                            {
+                                if (brigade.BrigadeId.Equals(Model.Flight.BrigadeId))
+                                {
+                                    if (employee.TeamId.Equals(brigade.PilotTeamId))
+                                    {
+                                        @employee.Employee.EmployeeName@delimeter
+                                    }
+                                }
+                            }
+                        }
+                    </p>
+                }
+            </div>
+            <div class="card-action">
+                <a href="#">Изменить</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <a class="waves-effect waves-light btn" href="@Url.Action("Edit", "Flight", new {Model.Flight.FlightId})">Изменить</a>
+    <div style="display: inline-block;">
+        @using (Html.BeginForm("Delete", "Flight"))
+        {
+            @Html.Hidden("FlightId", Model.Flight.FlightId)
+            <button type="submit" class="waves-effect waves-light btn">Удалить</button>
+        }
+    </div>
+</div>

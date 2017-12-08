@@ -1,0 +1,51 @@
+﻿@using Aviacompany.Library.Entities
+@model Aviacompany.Library.Entities.Flight
+
+@{
+    ViewBag.Title = "Редактирование рейса";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<script>
+    $(document).ready(function () {
+        $('select').material_select();
+    });
+</script>
+@using (Html.BeginForm("Edit", "Flight", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.FlightId)
+    <div class="input-field col s12">
+        @Html.LabelFor(x => x.FlightNumber)
+        @Html.TextBoxFor(x => x.FlightNumber, new { @class = "validate", @placeholder = "Номер рейса", @id = "password" })
+    </div>
+    <div class="col s12">
+        @Html.LabelFor(x => x.FlightTo)
+        @Html.DropDownListFor(x => x.FlightTo, new SelectList(ViewBag.FlightTo, "CityId", "CityName", Model.FlightTo), "Выберите город")
+    </div>
+    <div class="col s12">
+        @Html.LabelFor(x => x.FlightFrom)
+        @Html.DropDownListFor(x => x.FlightFrom, new SelectList(ViewBag.FlightTo, "CityId", "CityName", Model.FlightFrom), "Выберите город")
+    </div>
+    <div class="input-field col s12">
+        @Html.LabelFor(x => x.FlightTime)
+        @Html.TextBoxFor(x => x.FlightTime, new { @class = "timepicker", @id = "time", @placeholder = "Время" })
+    </div>
+    <div class="input-field col s12">
+        @Html.LabelFor(x => x.FlightDate)
+        @Html.TextBoxFor(x => x.FlightDate, new { @class = "datepicker", @id = "date", @placeholder = "Дата"})
+    </div>
+    <div class="col s12">
+        @Html.LabelFor(x => x.FlightStatusId)
+        @Html.DropDownListFor(x => x.FlightStatusId, new SelectList(ViewBag.FlightStatus, "FlightStatusId", "StatusName"), "Выберите статус")
+    </div>
+    <div class="form-group">
+        <button type="submit" class="waves-effect waves-light btn">Сохранить</button>
+        <a href="@Url.Action("Index", "Home")" class="waves-effect waves-light btn">Отмена</a>
+    </div>
+
+}
+<script src="~/Scripts/datetime.js"></script>

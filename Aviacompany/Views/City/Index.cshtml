@@ -1,0 +1,44 @@
+﻿@using Aviacompany.Infrastructure
+@using Aviacompany.Library.Entities
+@model IEnumerable<Aviacompany.Library.Entities.City>
+@{
+    ViewBag.Title = "Города";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Города</div>
+        <table class="table table-striped">
+            <tr>
+                <th>ID</th>
+                <th style="min-width: 800px;">Название</th>
+            </tr>
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td colspan="2" class="text-center">Нет городов</td>
+                </tr>
+            }
+            else
+            {
+                foreach (City city in Model)
+                {
+                    <tr>
+                        <td>@city.CityId</td>
+                        <td>@city.CityName</td>
+                        <td>
+                            @using (Html.BeginForm("Delete", "City", new { cityId = city.CityId }))
+                            {
+                                @Html.ActionLink("Изменить", "Edit", new { cityId = city.CityId },
+                                    new { @class = "btn btn-primary btn-xs", style = "float:left; margin-right:5px" })
+                                <button class="btn btn-danger btn-xs" type="submit">Удалить</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    @Html.ActionLink("Создать", "Create", null, new { @class = "btn btn-primary" })
+    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">На главную</a>
+</div>

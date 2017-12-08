@@ -2,12 +2,13 @@
 
 namespace Aviacompany.Library.Models
 {
-    public class CreateModel
+    public class CreateViewModel
     {
         [Required]
         public string Name { get; set; }
 
         [Required]
+        [RegularExpression("^.+@.+\\..+", ErrorMessage = "Неверный email адрес")]
         public string Email { get; set; }
 
         [Required]

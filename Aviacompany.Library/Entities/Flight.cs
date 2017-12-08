@@ -14,20 +14,27 @@ namespace Aviacompany.Library.Entities
         public int FlightId { get; set; }
         [Display(Name = "Номер рейса")]
         public string FlightNumber { get; set; }
-
+        [Display(Name = "Откуда?")]
         public int? FlightFrom { get; set; }
 
         public City FlightFromCity { get; set; }
-
+        [Display(Name = "Куда?")]
         public int? FlightTo { get; set; }
 
         public City FlightToCity { get; set; }
         [Display(Name = "Дата вылета")]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy} HH:mm")]
-        public DateTime FlightDateTime { get; set; }
-
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime FlightDate { get; set; }
+        [Display(Name = "Время вылета")]
+        [DisplayFormat(DataFormatString = "{0:HH:mm}")]
+        public TimeSpan FlightTime { get; set; }
         public int FlightStatusId { get; set; }
 
         public FlightStatus FlightStatus { get; set; }
+
+        public int? BrigadeId { get; set; }
+
+        public Brigade Brigade { get; set; }
+        
     }
 }

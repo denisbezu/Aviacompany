@@ -1,0 +1,49 @@
+﻿@using Aviacompany.Library.Infrastrucutre
+@using Aviacompany.Library.Models
+@using Microsoft.AspNet.Identity.EntityFramework
+@model Aviacompany.Library.Models.AppUser
+
+@{
+    ViewBag.Title = "Мои настройки";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string roles = "";
+
+    foreach (AppRole role in ViewBag.RoleManager)
+    {
+        if (User.IsInRole(role.Name))
+        {
+            roles += role.Name + ";";
+        }
+    }
+
+}
+
+@using (Html.BeginForm())
+{
+
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    <div class="input-field  col s12">
+        <label for="login">Логин</label>
+        @Html.TextBoxFor(x => x.UserName, new { @class = "validate", @placeholder = "Логин", @id = "login", @readonly = "readonly" })
+    </div>
+    <div class="input-field col s12">
+        <label for="email">Email</label>
+        @Html.TextBoxFor(x => x.Email, new { @class = "validate", @placeholder = "Email", @id = "email" })
+    </div>
+    <div class="input-field col s12">
+        <label for="phone">Номер телефона</label>
+        @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "validate", @placeholder = "Номер телефона", @id = "phone" })
+    </div>
+    <div class="input-field col s12">
+        <label>Пароль</label>
+        <input name="password" type="password" placeholder="Пароль" />
+    </div>
+    <div class="input-field col s12">
+        <label>Роли</label>
+        <input placeholder="Нет ролей" type="text" readonly="readonly" value="@roles" />
+    </div>
+    <button class="waves-effect waves-light btn register-btn" type="submit">Сохранить</button>
+   
+}

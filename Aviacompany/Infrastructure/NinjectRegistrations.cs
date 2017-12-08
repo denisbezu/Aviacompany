@@ -19,6 +19,11 @@ namespace Aviacompany.Infrastructure
         {
             ModelValidatorProviders.Providers.Clear();
             Bind<IFlightRepository>().To<FlightRepository>();
+            Bind<ICityRepository>().To<CityRepository>();
+            Bind<IFlightStatusRepository>().To<FlightStatusRepository>();
+            Bind<ITeamEmployeeRepository>().To<TeamEmployeeRepository>();
+            Bind<ITeamRepository>().To<TeamRepository>();
+            Bind<IBrigadeRepository>().To<BrigadeRepository>();
         }
     }
 }

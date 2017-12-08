@@ -1,20 +1,46 @@
 ﻿@using Aviacompany.Library.Entities
-@model IEnumerable<Aviacompany.Library.Entities.Flight>
+@model Aviacompany.Library.Models.FlightsViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Главная";
 }
 <style>
-button {
-    margin-top: 15px;
-    margin-right: 20px;
-}
+    #addFlight {
+        margin-top: 15px;
+        margin-right: 20px;
+    }
 </style>
+<script>
+    $(document).ready(function () {
+        $('select').material_select();
+    });
+</script>
 <div class="row">
     <h4 class="grey-text text-lighten-4 col s6">Рейсы</h4>
     <div class="right-align">
-        <button class="waves-effect waves-light btn">Добавить</button>
+        @Html.ActionLink("Добавить рейс", "CreateFlight", "Flight", null, new { @class = "waves-effect waves-light btn", @id = "addFlight" })
     </div>
+</div>
+<div class="row">
+    @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+    {
+        <div class="input-field col s2">
+            @Html.TextBoxFor(x => x.FlightName, new { @placeholder = "Номер рейса" })
+        </div>
+        <div class="input-field col s2">
+            @Html.DropDownListFor(x => x.CityFrom, new SelectList(Model.Cities, "CityId", "CityName"), "Откуда?")
+        </div>
+        <div class="input-field col s2">
+            @Html.DropDownListFor(x => x.CityTo, new SelectList(Model.Cities, "CityId", "CityName"), "Куда?")
+        </div>
+        <div class="input-field col s2">
+            @Html.TextBoxFor(x => x.Date, new { @class = "datepicker", @id = "date", @placeholder = "Дата" })
+        </div>
+        <div class="right-align">
+            @Html.ActionLink("Сбросить", "Index", null, new { @class = "waves-effect waves-light btn", @id = "addFlight" })
+            <button type="submit" class="waves-effect waves-light btn" id="addFlight">Поиск</button>
+        </div>
+    }
 </div>
 <table class="black-text text-lighten-4 z-depth-3 red accent-1 highlight">
     <thead>
@@ -23,21 +49,30 @@ button {
             <th>Откуда</th>
             <th>Куда</th>
             <th>Дата вылета</th>
+            <th>Время вылета</th>
             <th>Статус рейса</th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach (Flight item in Model)
-        {
+    @if (Model.Flights.Count() == 0)
+    {
+        <tr>
+            <td colspan="6" class="center-align" >Рейсов не найдено</td>
+        </tr>
+    }
+    @foreach (Flight item in Model.Flights)
+    {
 
-            <tr onclick="window.location.href='@Url.Action("FlyghtInfo", new { item.FlightId })'; return false">
-                <td>@item.FlightNumber</td>
-                <td>@item.FlightFromCity.CityName</td>
-                <td>@item.FlightToCity.CityName</td>
-                <td>@item.FlightDateTime</td>
-                <td>@item.FlightStatus.StatusName</td>
-            </tr>
-        }
+        <tr onclick="window.location.href = '@Url.Action("FlightInfo", new {item.FlightId})';return false">
+            <td>@item.FlightNumber</td>
+            <td>@item.FlightFromCity.CityName</td>
+            <td>@item.FlightToCity.CityName</td>
+            <td>@item.FlightDate.Date</td>
+            <td>@item.FlightTime</td>
+            <td>@item.FlightStatus.StatusName</td>
+        </tr>
+    }
     </tbody>
 </table>
+<script src="~/Scripts/datetime.js"></script>
