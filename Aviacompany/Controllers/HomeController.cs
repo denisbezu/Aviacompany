@@ -78,6 +78,11 @@ namespace Aviacompany.Controllers
             return View();
         }
 
+        public ActionResult Info()
+        {
+            return View();
+        }
+
         public async Task<ActionResult> FlightInfo(int flightId = 0)
         {
             

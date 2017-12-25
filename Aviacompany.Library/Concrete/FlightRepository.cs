@@ -6,7 +6,7 @@ using Aviacompany.Library.Entities;
 
 namespace Aviacompany.Library.Concrete
 {
-    public class FlightRepository : IFlightRepository 
+    public class FlightRepository : IFlightRepository
     {
         AviaCompanyContext context = new AviaCompanyContext();
 
@@ -24,7 +24,13 @@ namespace Aviacompany.Library.Concrete
         public void SaveFlight(Flight flight)
         {
             if (flight.FlightId == 0)
+            {
+                Brigade brigade = new Brigade();
+                BrigadeRepository repository = new BrigadeRepository();
+                repository.SaveBrigade(brigade);
+                flight.Brigade = brigade;
                 context.Flights.Add(flight);
+            }
             else
             {
                 Flight dbEntry = context.Flights.Find(flight.FlightId);
@@ -36,6 +42,7 @@ namespace Aviacompany.Library.Concrete
                     dbEntry.FlightNumber = flight.FlightNumber;
                     dbEntry.FlightDate = flight.FlightDate;
                     dbEntry.FlightTime = flight.FlightTime;
+                    dbEntry.BrigadeId = flight.BrigadeId;
                 }
             }
             context.SaveChanges();

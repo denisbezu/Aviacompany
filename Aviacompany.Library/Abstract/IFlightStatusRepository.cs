@@ -7,5 +7,9 @@ namespace Aviacompany.Library.Abstract
     public interface IFlightStatusRepository
     {
         IEnumerable<FlightStatus> FlightStatuses { get; }
+
+        void SaveFlightStatus(FlightStatus flightStatus);
+
+        FlightStatus DeleteFlightStatus(int flightStatusId);
     }
 }

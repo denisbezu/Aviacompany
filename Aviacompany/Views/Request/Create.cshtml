@@ -1,0 +1,28 @@
+﻿@model Aviacompany.Library.Entities.Request
+
+@{
+    ViewBag.Title = "Создание заявки";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        $('select').material_select();
+    });
+</script>
+@using (Html.BeginForm("Create", "Request", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.RequestId)
+    @Html.HiddenFor(x => x.BrigadeId)
+    <div class="input-field col s12">
+        @Html.LabelFor(x => x.Message)
+        @Html.TextBoxFor(x => x.Message,  new { @class = "validate", @placeholder = "Сообщение" })
+    </div>
+    @*<div class="input-field col s12">
+        @Html.LabelFor(x => x.BrigadeId)
+        @Html.TextBoxFor(x => x.BrigadeId,  new { @class = "validate", @placeholder = "Сообщение", @readonly = "readonly" })
+    </div>*@
+    <button type="submit" class="waves-effect waves-light btn">Отправить</button>
+}
+<script src="~/Scripts/datetime.js"></script>

@@ -99,12 +99,14 @@
     <Compile Include="Abstract\ICityRepository.cs" />
     <Compile Include="Abstract\IFlightRepository.cs" />
     <Compile Include="Abstract\IFlightStatusRepository.cs" />
+    <Compile Include="Abstract\IRequestRepositiry.cs" />
     <Compile Include="Abstract\ITeamEmployeeRepository.cs" />
     <Compile Include="Abstract\ITeamRepository.cs" />
     <Compile Include="Concrete\BrigadeRepository.cs" />
     <Compile Include="Concrete\CityRepository.cs" />
     <Compile Include="Concrete\FlightRepository.cs" />
     <Compile Include="Concrete\FlightStatusRepository.cs" />
+    <Compile Include="Concrete\RequestRepository.cs" />
     <Compile Include="Concrete\TeamEmployeeRepository.cs" />
     <Compile Include="Concrete\TeamRepository.cs" />
     <Compile Include="DataAccess\AviaCompanyContext.cs" />
@@ -120,6 +122,11 @@
     <Compile Include="Entities\TeamType.cs" />
     <Compile Include="Infrastrucutre\AppRoleManager.cs" />
     <Compile Include="Infrastrucutre\AppUserManager.cs" />
+    <Compile Include="Migrations\201712251828423_Mig1.cs" />
+    <Compile Include="Migrations\201712251828423_Mig1.Designer.cs">
+      <DependentUpon>201712251828423_Mig1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AppRole.cs" />
     <Compile Include="Models\AppUserModels.cs" />
     <Compile Include="Models\CreateViewModel.cs" />
@@ -133,6 +140,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201712251828423_Mig1.resx">
+      <DependentUpon>201712251828423_Mig1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

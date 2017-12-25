@@ -1,9 +1,11 @@
-﻿using Aviacompany.Library.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using Aviacompany.Library.Models;
 
 namespace Aviacompany.Library.Entities
 {
     public enum RequestType
     {
+        None,
         Accepted,
         Rejected
     }
@@ -14,14 +16,10 @@ namespace Aviacompany.Library.Entities
 
         public RequestType RequestType { get; set; }
 
-        public string AppUserId { get; set; } //тот кто отправляет заявку
-
-        public AppUser AppUser { get; set; }
-
         public int BrigadeId { get; set; }
 
         public Brigade Brigade { get; set; }
-
+        [Display(Name = "Сообщение")]
         public string Message { get; set; }
 
     }

@@ -18,5 +18,24 @@ namespace Aviacompany.Library.Concrete
                 return context.Brigades.Local;
             }
         }
+
+        public void SaveBrigade(Brigade brigade)
+        {
+            if (brigade.BrigadeId == 0)
+                context.Brigades.Add(brigade);
+            else
+            {
+                Brigade dbEntry = context.Brigades.Find(brigade.BrigadeId);
+                if (dbEntry != null)
+                {
+                    dbEntry.NavigatorTeamId = brigade.NavigatorTeamId;
+                    dbEntry.OperatorTeamId = brigade.OperatorTeamId;
+                    dbEntry.PilotTeamId = brigade.PilotTeamId;
+                    dbEntry.StewardessTeamId = brigade.StewardessTeamId;
+                   
+                }
+            }
+            context.SaveChanges();
+        }
     }
 }

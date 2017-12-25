@@ -13,15 +13,18 @@ namespace Aviacompany.Controllers
         private IFlightRepository _flightRepository;
         private ICityRepository _cityRepository;
         private IFlightStatusRepository _flightStatusRepository;
-
-        public FlightController(IFlightRepository flightRepository, ICityRepository cityRepository, IFlightStatusRepository flightStatusRepository)
+        private IBrigadeRepository _brigadeRepository;
+        public FlightController(IFlightRepository flightRepository, ICityRepository cityRepository,
+            IFlightStatusRepository flightStatusRepository, IBrigadeRepository brigadeRepository)
         {
             _flightRepository = flightRepository;
             _cityRepository = cityRepository;
             _flightStatusRepository = flightStatusRepository;
+            _brigadeRepository = brigadeRepository;
             ViewBag.FlightTo = _cityRepository.Cities.ToList();
             ViewBag.FlightStatus = _flightStatusRepository.FlightStatuses.ToList();
         }
+
         // GET: Flight
         public ActionResult Index()
         {
@@ -30,6 +33,7 @@ namespace Aviacompany.Controllers
 
         public ActionResult CreateFlight()
         {
+            
             return View("Edit", new Flight());
         }
 
@@ -39,6 +43,7 @@ namespace Aviacompany.Controllers
                 .FirstOrDefault(g => g.FlightId == flightId);
             return View(flight);
         }
+
         [HttpPost]
         public ActionResult Edit(Flight flight)
         {
@@ -68,7 +73,7 @@ namespace Aviacompany.Controllers
                 ModelState.AddModelError("date", "Задайте дату больше, чем 01/01/1900");
                 flag = false;
             }
-            if(flight.FlightTo == null)
+            if (flight.FlightTo == null)
             {
                 ModelState.AddModelError("flightTo", "Задайте поле \"Куда?\"");
                 flag = false;

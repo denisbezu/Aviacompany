@@ -154,6 +154,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\black-plane.png" />
+    <Content Include="Content\images\im1.jpg" />
+    <Content Include="Content\images\im2.jpg" />
     <Content Include="Content\images\plane-about.jpg" />
     <Content Include="Content\materialize\css\materialize.css" />
     <Content Include="Content\materialize\css\materialize.min.css" />
@@ -233,9 +235,11 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\FlightController.cs" />
+    <Compile Include="Controllers\FlightStatusController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\RequestController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\UserSettingsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -270,6 +274,12 @@
     <Content Include="Views\City\Index.cshtml" />
     <Content Include="Views\City\Create.cshtml" />
     <Content Include="Views\City\Edit.cshtml" />
+    <Content Include="Views\FlightStatus\Index.cshtml" />
+    <Content Include="Views\FlightStatus\Create.cshtml" />
+    <Content Include="Views\FlightStatus\Edit.cshtml" />
+    <Content Include="Views\Request\Index.cshtml" />
+    <Content Include="Views\Request\Create.cshtml" />
+    <Content Include="Views\Home\Info.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

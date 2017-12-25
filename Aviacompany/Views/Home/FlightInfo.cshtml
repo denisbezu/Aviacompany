@@ -36,6 +36,7 @@
             </tr>
         </table>
     </div>
+
     <div class="col m6">
         <div class="card blue-grey darken-1">
             <div class="card-content white-text">
@@ -49,37 +50,48 @@
                 }
                 else
                 {
-
                     <p>
                         Пилоты: @foreach (TeamEmployee employee in Model.TeamEmployees)
-                        {
-                            foreach (Brigade brigade in Model.Brigades)
-                            {
-                                if (brigade.BrigadeId.Equals(Model.Flight.BrigadeId))
                                 {
-                                    if (employee.TeamId.Equals(brigade.PilotTeamId))
+                                    foreach (Brigade brigade in Model.Brigades)
                                     {
-                                        @employee.Employee.EmployeeName@delimeter
+                                        if (brigade.BrigadeId.Equals(Model.Flight.BrigadeId))
+                                        {
+                                            if (employee.TeamId.Equals(brigade.PilotTeamId))
+                                            {
+                                                @employee.Employee.EmployeeName@delimeter
+                                            }
+                                        }
                                     }
                                 }
-                            }
-                        }
                     </p>
                 }
             </div>
-            <div class="card-action">
-                <a href="#">Изменить</a>
-            </div>
+            @if (Request.IsAuthenticated && User.IsInRole("Administrators"))
+            {
+                <div class="card-action">
+                    <a href="#">Изменить</a>
+                </div>
+            }
         </div>
     </div>
+
 </div>
-<div class="row">
-    <a class="waves-effect waves-light btn" href="@Url.Action("Edit", "Flight", new {Model.Flight.FlightId})">Изменить</a>
-    <div style="display: inline-block;">
-        @using (Html.BeginForm("Delete", "Flight"))
-        {
-            @Html.Hidden("FlightId", Model.Flight.FlightId)
-            <button type="submit" class="waves-effect waves-light btn">Удалить</button>
-        }
+@if (Request.IsAuthenticated && User.IsInRole("Administrators"))
+{
+    <div class="row">
+        <a class="waves-effect waves-light btn" href="@Url.Action("Edit", "Flight", new {Model.Flight.FlightId})">Изменить</a>
+        <div style="display: inline-block;">
+            @using (Html.BeginForm("Delete", "Flight"))
+            {
+                @Html.Hidden("FlightId", Model.Flight.FlightId)
+                <button type="submit" class="waves-effect waves-light btn">Удалить</button>
+            }
+        </div>
+
     </div>
-</div>
+}
+@if (Request.IsAuthenticated && User.IsInRole("Dispatcher"))
+{
+    <a class="waves-effect waves-light btn" href="@Url.Action("Create", "Request", new { brigadeId = Model.Flight.BrigadeId })">Отправить заявку</a>
+}

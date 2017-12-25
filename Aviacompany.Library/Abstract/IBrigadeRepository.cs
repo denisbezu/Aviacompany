@@ -6,5 +6,7 @@ namespace Aviacompany.Library.Abstract
     public interface IBrigadeRepository
     {
         IEnumerable<Brigade> Brigades { get; }
+
+        void SaveBrigade(Brigade brigade);
     }
 }

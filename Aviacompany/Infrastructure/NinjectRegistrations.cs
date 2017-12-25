@@ -24,6 +24,7 @@ namespace Aviacompany.Infrastructure
             Bind<ITeamEmployeeRepository>().To<TeamEmployeeRepository>();
             Bind<ITeamRepository>().To<TeamRepository>();
             Bind<IBrigadeRepository>().To<BrigadeRepository>();
+            Bind<IRequestRepositiry>().To<RequestRepository>();
         }
     }
 }

@@ -8,15 +8,41 @@ namespace Aviacompany.Library.Concrete
 {
     public class FlightStatusRepository : IFlightStatusRepository
     {
-        AviaCompanyContext context = new AviaCompanyContext();
+        readonly AviaCompanyContext _context = new AviaCompanyContext();
 
         public IEnumerable<FlightStatus> FlightStatuses
         {
             get
             {
-                context.FlightStatuses.Load();
-                return context.FlightStatuses;
+                _context.FlightStatuses.Load();
+                return _context.FlightStatuses;
             }
+        }
+
+        public void SaveFlightStatus(FlightStatus flightStatus)
+        {
+            if (flightStatus.FlightStatusId == 0)
+                _context.FlightStatuses.Add(flightStatus);
+            else
+            {
+                FlightStatus dbEntry = _context.FlightStatuses.Find(flightStatus.FlightStatusId);
+                if (dbEntry != null)
+                {
+                    dbEntry.StatusName = flightStatus.StatusName;
+                }
+            }
+            _context.SaveChanges();
+        }
+
+        public FlightStatus DeleteFlightStatus(int flightStatusId)
+        {
+            FlightStatus dbEntry = _context.FlightStatuses.Find(flightStatusId);
+            if (dbEntry != null)
+            {
+                _context.FlightStatuses.Remove(dbEntry);
+                _context.SaveChanges();
+            }
+            return dbEntry;
         }
     }
 }
